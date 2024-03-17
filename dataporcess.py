@@ -1,6 +1,5 @@
 import struct
 import numpy as np
-import csv
 # python 3.11.7
 
 
@@ -58,6 +57,7 @@ for i in range(m):
     weightarray[0, i, :] = dists[i, index[i][:k]]
     indexarray[0, i, :] = index[i][:k]
 
+
 # 设计一个算法来更新数据，利用上一时刻的数据来更新
 # 例如现在有第0时刻的top10[596,10]的数据，同时还有索引
 # 这时可以利用索引将数据取出，然后再根据索引的索引每个数据引入5个新的值
@@ -89,11 +89,10 @@ for t_val in range(1, time_stamp, 1):
         indexarray[t_val, i, :] = sortarr[secondidx[:k]]
         print(f'{t_val} and {i}')
 
-# csv file
-fil_name = 'csv_time_point'
-with open(fil_name+'.csv', 'w', newline='') as csvfile:
-    writer = csv.writer(csvfile, delimiter=',')
-    writer.writerows(indexarray)
+# reshape 成二维数组用savetxt存储
+indexarray_reshaped = np.reshape(indexarray, (time_stamp, num_vertex*k))
+np.savetxt("csv_time_point.csv", indexarray_reshaped, fmt="%d", delimiter=",")
+
 # 目标问题1：596个原子之间的两两稳定关系（共价键检测）
 # 目标问题2：稳定基团的认知（多原子稳定基团）
 # 目标问题3：基团的频谱系
