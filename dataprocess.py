@@ -5,14 +5,14 @@ import numpy as np
 
 # data预处理,
 # 寻找固定的关系以前596行作为基准，
-# 计算每一个原子与其他原子的距离，形成一个对角线为0的对称邻接矩阵，然后从矩阵中排列，找出例如top20，的xyz，每次读入以后都要计算xyz的变化，产生一个变化矩阵.
+# 计算每一个原子与其他原子的距离，形成一个对角线为inf的对称邻接矩阵，然后从矩阵中排列，找出例如top20，的xyz，每次读入以后都要计算xyz的变化，产生一个变化矩阵.
 struct_fmt = '=iiiiddd'
 struct_len = struct.calcsize(struct_fmt)
 struck_unpack = struct.Struct(struct_fmt).unpack_from
 time_stamp = 1001  # 1001个时刻的数据
 num_vertex = 596
 inf = 1e5
-k = 10  # 可变的参数，每一个原子只要topk小的欧几里得距离
+k = 10  # 可变的参数，每一个原子只要top k小的欧几里得距离
 x_idx = 4
 y_idx = 5
 z_idx = 6
